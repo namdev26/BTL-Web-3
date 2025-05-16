@@ -1,222 +1,161 @@
 <?php
+// Dữ liệu giả lập (tĩnh)
+$employees = [
+    ['id' => 1, 'name' => 'Nguyen Van A', 'department' => 'CNTT', 'position' => 'Developer', 'start_date' => '2023-01-15', 'status' => 'Đang làm việc'],
+    ['id' => 2, 'name' => 'Tran Thi B', 'department' => 'Thiết kế', 'position' => 'Designer', 'start_date' => '2022-06-20', 'status' => 'Đang làm việc'],
+    ['id' => 3, 'name' => 'Le Van C', 'department' => 'Quản lý', 'position' => 'Manager', 'start_date' => '2021-03-10', 'status' => 'Nghỉ phép'],
+];
+
+$topEmployees = [
+    ['name' => 'Tran Thi B', 'position' => 'Designer', 'rank' => 'TOP 1', 'image' => 'Image/NV1.jpg'],
+    ['name' => 'Nguyen Van A', 'position' => 'Developer', 'rank' => 'TOP 2', 'image' => 'Image/NV1.jpg'],
+    ['name' => 'Le Van C', 'position' => 'Manager', 'rank' => 'TOP 3', 'image' => 'Image/NV1.jpg'],
+];
 ?>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ENFTOMARK</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #fff5f7, #e6e0ea);
-            color: #333;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .header {
-            width: 100%;
-            padding: 10px 50px;
-            background-color: #fff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #6b46c1;
-        }
-        .search-bar input {
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 20px;
-            width: 200px;
-        }
-        .nav a {
-            margin-left: 20px;
-            text-decoration: none;
-            color: #6b46c1;
-            font-weight: bold;
-        }
-        .user-info {
-            display: flex;
-            align-items: center;
-        }
-        .user-info span {
-            margin-right: 10px;
-            color: #6b46c1;
-        }
-        .user-info .balance {
-            background-color: #6b46c1;
-            color: #fff;
-            padding: 5px 10px;
-            border-radius: 10px;
-        }
-        .hero {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 80%;
-            margin-top: 50px;
-            min-height: 600px;
-        }
-        .hero-content {
-            max-width: 50%;
-        }
-        .hero-content h1 {
-            font-size: 48px;
-            margin: 0;
-            color: #2d3748;
-            line-height: 1.2;
-        }
-        .hero-content p {
-            font-size: 16px;
-            color: #718096;
-            margin: 20px 0;
-        }
-        .hero-buttons a {
-            display: inline-block;
-            padding: 10px 20px;
-            margin-right: 10px;
-            text-decoration: none;
-            color: #fff;
-            background-color: #6b46c1;
-            border-radius: 5px;
-        }
-        .hero-buttons a:first-child {
-            background-color: #6b46c1;
-        }
-        .hero-buttons a:last-child {
-            background-color: #a0aec0;
-            color: #2d3748;
-        }
-        .nft-card {
-            position: relative;
-            background-color: #6b46c1;
-            width: 300px;
-            height: 400px;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-        .nft-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .nft-card .details {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0,0,0,0.7);
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-        }
-        .nft-card .details p {
-            margin: 5px 0;
-        }
-        .nft-card .details .likes {
-            color: #ff6347;
-        }
-        .top-employees {
-            width: 80%;
-            margin-top: 50px;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        .top-employees h2 {
-            font-size: 24px;
-            color: #2d3748;
-            margin-bottom: 20px;
-        }
-        .employee-list {
-            display: flex;
-            justify-content: space-around;
-        }
-        .employee-card {
-            width: 200px;
-        }
-        .employee-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 10px;
-        }
-        .employee-card h3 {
-            font-size: 18px;
-            color: #2d3748;
-            margin: 10px 0;
-        }
-        .employee-card p {
-            font-size: 14px;
-            color: #718096;
-        }
-    </style>
+    <title>Employee Management System</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="header">
-        <div class="logo">ENFTOMARK</div>
+        <div class="logo">EmployeeSys</div>
         <div class="search-bar">
-            <input type="text" placeholder="Search items, collections, and creators">
+            <input type="text" placeholder="Tìm kiếm nhân viên...">
         </div>
         <div class="nav">
-            <a href="#">Home</a>
-            <a href="#">Explore</a>
-            <a href="#">Activity</a>
-            <a href="#">Blog</a>
-            <a href="#">Pages</a>
-            <a href="#">...</a>
+            <a href="#" class="active">Dashboard</a>
+            <a href="#">Employees</a>
+            <a href="#">Performance</a>
+            <a href="#">Leave</a>
+            <a href="#">Settings</a>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">More</a>
+                <div class="dropdown-content">
+                    <a href="#">Payroll</a>
+                    <a href="#">Training</a>
+                    <a href="#">Support</a>
+                </div>
+            </div>
         </div>
         <div class="user-info">
-            <span>Alex Joe</span>
-            <span class="balance">234.98ETH</span>
+            <button class="btn-login">Đăng nhập</button>
+            <button class="btn-register">Đăng ký</button>
         </div>
     </div>
     <div class="hero">
         <div class="hero-content">
-            <h1>Create, Collect And Sell Digital Items.</h1>
-            <p>Digital Marketplace For Crypto Collections and Non-Fungible Tokens. Buy, Sell, And Discover Exclusive Digital Assets.</p>
+            <h1>Quản lý nhân viên hiệu quả</h1>
+            <p>Hệ thống quản lý nhân viên hiện đại, giúp tối ưu hóa quy trình quản lý, theo dõi hiệu suất và phê duyệt nghỉ phép.</p>
             <div class="hero-buttons">
-                <a href="#">Explore</a>
-                <a href="#">Create</a>
+                <a href="#">Khám phá</a>
+                <a href="#">Bắt đầu</a>
             </div>
         </div>
         <div class="nft-card">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==" alt="Silly Cat">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==" alt="Company Logo">
             <div class="details">
-                <p>Silly Cat #3</p>
-                <p>Price: 0.34 ETH</p>
-                <p class="likes">❤️ 230</p>
+                <p>EmployeeSys</p>
+                <p>Version 1.0</p>
+                <p class="likes">❤️ 150</p>
             </div>
         </div>
     </div>
     <div class="top-employees">
-        <h2>Top 3 Outstanding Employees of the Month</h2>
+        <h2>Top 3 nhân viên xuất sắc của tháng</h2>
         <div class="employee-list">
-            <div class="employee-card">
-                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==" alt="Employee 1">
-                <h3>Nguyen Van A</h3>
-                <p>Developer</p>
-            </div>
-            <div class="employee-card">
-                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==" alt="Employee 2">
-                <h3>Tran Thi B</h3>
-                <p>Designer</p>
-            </div>
-            <div class="employee-card">
-                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==" alt="Employee 3">
-                <h3>Le Van C</h3>
-                <p>Manager</p>
+            <?php foreach ($topEmployees as $employee): ?>
+                <div class="employee-card">
+                    <img src="<?php echo $employee['image']; ?>" alt="<?php echo $employee['name']; ?>">
+                    <h4><?php echo $employee['rank']; ?></h4>
+                    <h3><?php echo $employee['name']; ?></h3>
+                    <p><?php echo $employee['position']; ?></p>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+    <div class="employee-management">
+        <h2>Danh sách nhân viên</h2>
+        <div class="employee-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tên</th>
+                        <th>Phòng ban</th>
+                        <th>Vị trí</th>
+                        <th>Ngày vào làm</th>
+                        <th>Trạng thái</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($employees as $employee): ?>
+                        <tr>
+                            <td><?php echo $employee['id']; ?></td>
+                            <td><?php echo $employee['name']; ?></td>
+                            <td><?php echo $employee['department']; ?></td>
+                            <td><?php echo $employee['position']; ?></td>
+                            <td><?php echo $employee['start_date']; ?></td>
+                            <td><?php echo $employee['status']; ?></td>
+                            <td>
+                                <a href="?page=edit&id=<?php echo $employee['id']; ?>" class="btn-edit">Sửa</a>
+                                <a href="#" class="btn-delete" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+        <div class="employee-actions">
+            <button class="btn-add" onclick="document.getElementById('addForm').style.display='block'">Thêm nhân viên</button>
+            <?php if (isset($_GET['page']) && $_GET['page'] == 'edit' && isset($_GET['id'])): ?>
+                <div id="editForm" class="form-popup" style="display:block;">
+                    <form class="form-container">
+                        <h3>Sửa thông tin nhân viên</h3>
+                        <label>Tên:</label>
+                        <input type="text" value="Nguyen Van A" required>
+                        <label>Phòng ban:</label>
+                        <input type="text" value="CNTT" required>
+                        <label>Vị trí:</label>
+                        <input type="text" value="Developer" required>
+                        <label>Ngày vào làm:</label>
+                        <input type="date" value="2023-01-15" required>
+                        <label>Trạng thái:</label>
+                        <select>
+                            <option value="Đang làm việc" selected>Đang làm việc</option>
+                            <option value="Nghỉ phép">Nghỉ phép</option>
+                            <option value="Nghỉ việc">Nghỉ việc</option>
+                        </select>
+                        <button type="submit" class="btn">Cập nhật</button>
+                        <button type="button" class="btn-cancel" onclick="document.getElementById('editForm').style.display='none'">Hủy</button>
+                    </form>
+                </div>
+            <?php endif; ?>
+            <div id="addForm" class="form-popup" style="display:none;">
+                <form class="form-container">
+                    <h3>Thêm nhân viên mới</h3>
+                    <label>Tên:</label>
+                    <input type="text" name="name" required>
+                    <label>Phòng ban:</label>
+                    <input type="text" name="department" required>
+                    <label>Vị trí:</label>
+                    <input type="text" name="position" required>
+                    <label>Ngày vào làm:</label>
+                    <input type="date" name="start_date" required>
+                    <label>Trạng thái:</label>
+                    <select name="status">
+                        <option value="Đang làm việc">Đang làm việc</option>
+                        <option value="Nghỉ phép">Nghỉ phép</option>
+                        <option value="Nghỉ việc">Nghỉ việc</option>
+                    </select>
+                    <button type="submit" class="btn">Thêm</button>
+                    <button type="button" class="btn-cancel" onclick="document.getElementById('addForm').style.display='none'">Hủy</button>
+                </form>
             </div>
         </div>
     </div>
